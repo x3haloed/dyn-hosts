@@ -1,4 +1,5 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net;
@@ -46,7 +47,7 @@ namespace DynHosts.Client
                     foreach (var ip in ipsOption.Values)
                     {
                         Console.Write($"Requesting server at {remoteHost} update host \"{hostname}\" to \"{ip}\"... ");
-                        var postContent = new StringContent("{" + "'ipAddress':'" + ip + "'}", Encoding.UTF8, "application/json");
+                        var postContent = new StringContent(JsonConvert.SerializeObject(new { host = hostname, ipAddress = ip}), Encoding.UTF8, "application/json");
 
                         var contentAsString = await postContent.ReadAsStringAsync();
                         Console.WriteLine($"\r\n" + contentAsString);

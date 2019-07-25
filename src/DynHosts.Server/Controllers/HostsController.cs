@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DynHosts.Server.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DynHosts.Server.Controllers
 {
@@ -8,16 +10,24 @@ namespace DynHosts.Server.Controllers
     {
         // GET api/hosts/COMPUTER1
         [HttpGet("{name}")]
-        public ActionResult<string> Get(string name)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<HostsEntry> Get([FromRoute] string name)
         {
-            return Ok(new { host = name, ipAddress = "" });
+            return Ok(new HostsEntry { Host = name, IpAddress = "" });
         }
 
         // PUT api/hosts/COMPUTER1
         [HttpPut("{name}")]
-        public ActionResult Put(string name, [FromBody] string ipAddress)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<HostsEntry> Put([FromRoute] string name, [FromBody] HostsEntry hostsEntry)
         {
-            return CreatedAtAction(nameof(Get), new { host = name, ipAddress = ipAddress });
+            if (name != hostsEntry.Host)
+            {
+                return BadRequest();
+            }
+
+            return CreatedAtAction(nameof(Get), new { name = name }, hostsEntry);
         }
     }
 }
