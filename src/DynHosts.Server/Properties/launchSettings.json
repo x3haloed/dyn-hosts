@@ -1,0 +1,22 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:53798",
+      "sslPort": 53799
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "DynHosts.Server": {
+      "commandName": "Project",
+      "commandLineArgs": "--console --url https://localhost:53799;http://localhost:53798 --path C:\\temp\\hosts",
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53799;http://localhost:53798"
+    }
+  }
+}
