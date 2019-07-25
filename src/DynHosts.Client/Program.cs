@@ -27,12 +27,12 @@ namespace DynHosts.Client
                     "The URL of the DynHosts Server to connect to.",
                     CommandOptionType.SingleValue);
 
-            var hostnameOption = app.Option("-h|--hostname <NAMES>",
-                    "The hostname(s) to modify in the HOSTS file.",
+            var hostnameOption = app.Option("-h|--hostname <NAME>",
+                    "The hostname to modify in the HOSTS file.",
                     CommandOptionType.SingleValue);
 
-            var ipsOption = app.Option("-i|--ip <IPs>",
-                    "The IP address(es) to set the hostname value to in the HOSTS file.",
+            var ipsOption = app.Option("-i|--ip <IP>",
+                    "The IP address(es) to set the hostname value to in the HOSTS file. Specify multiple times for multiple IP adresses e.g. --ip 127.0.0.1 --ip ::1",
                     CommandOptionType.MultipleValue);
 
             app.OnExecute(async () =>

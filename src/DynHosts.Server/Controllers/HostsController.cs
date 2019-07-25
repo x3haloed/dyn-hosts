@@ -17,6 +17,7 @@ namespace DynHosts.Server.Controllers
         // GET api/hosts/COMPUTER1
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<HostsEntry>> Get([FromRoute] string name)
         {
             using (var fileStream = System.IO.File.Open(Program.PathToHostsFile, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -30,15 +31,20 @@ namespace DynHosts.Server.Controllers
                     fileText = await sr.ReadToEndAsync();
                 }
 
-                var hostRegex = new Regex(@"^\s*([^#][^\s^#]+)\s*([^#][^\s^#]+)", RegexOptions.Multiline);
+                var hostRegex = new Regex(@"^\s*([^#][^\s^#]+)\s*([^#][^\s^#]+)", RegexOptions.Multiline); // captures both IP and hostname
 
                 var ipAddresses = hostRegex.Matches(fileText)
                     .Select(m => m.Captures[0].Value)
                     .ToArray();
 
-                var result = new HostsEntry { Host = name, IpAddresses = ipAddresses };
+                if (ipAddresses.Length > 0)
+                {
+                    var result = new HostsEntry { Host = name, IpAddresses = ipAddresses };
 
-                return Ok(result);
+                    return Ok(result);
+                }
+
+                return NotFound();
             }
         }
 
@@ -69,7 +75,6 @@ namespace DynHosts.Server.Controllers
 
                 //search through each line in the HOSTS file to find the host to edit
                 var hostRegex = new Regex(@"^\s*([^#][^\s^#]+)\s*" + name, RegexOptions.IgnoreCase);
-                // var hostRegex = new Regex(@"^\s*([^#][^\s^#]+)\s*([^#][^\s^#]+)"); // captures both IP and hostname
 
                 //remove all matched host lines
                 fileLines = fileLines.Where(l => !hostRegex.IsMatch(l)).ToArray();
