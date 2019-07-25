@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FA8A9B0F-438B-43C2-80F1-9F6832699903}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynHosts.Server", "src\DynHosts.Server\DynHosts.Server.csproj", "{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynHosts.Client", "src\DynHosts.Client\DynHosts.Client.csproj", "{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3} = {FA8A9B0F-438B-43C2-80F1-9F6832699903}
+		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066} = {FA8A9B0F-438B-43C2-80F1-9F6832699903}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0DEF2A3E-E775-4CA2-A193-D1D70E10B7F2}
+	EndGlobalSection
+EndGlobal

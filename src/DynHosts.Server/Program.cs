@@ -1,0 +1,95 @@
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.ServiceProcess;
+using McMaster.Extensions.CommandLineUtils;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+using Microsoft.Extensions.Configuration;
+
+namespace DynHosts.Server
+{
+    public class Program
+    {
+        public static bool IsService;
+        public static string PathToContentRoot;
+
+        public static int Main(string[] args)
+        {
+            var app = new CommandLineApplication
+            {
+                Name = "dhserv",
+                Description = "DynHosts Server"
+            };
+
+            app.HelpOption("-?|-h|--help");
+
+            var consoleOption = app.Option("-c|--console",
+                    "Flag specifying that the application should run within a console window instead of as a service.",
+                    CommandOptionType.NoValue);
+
+            var pathOption = app.Option("--path <PATH>",
+                    "Path to the hosts file. Useful for testing.",
+                    CommandOptionType.SingleValue);
+
+            var urlsOption = app.Option("-u|--url <URLS>",
+                    "Semi-colon-delimited list of URL(s) to serve on.",
+                    CommandOptionType.SingleValue);
+
+            app.OnExecute(() =>
+            {
+                if (urlsOption.HasValue())
+                {
+                    //not running as a service if the debugger is attached or the --console arg was passed
+                    IsService = !(Debugger.IsAttached || consoleOption.HasValue());
+
+                    PathToContentRoot = Directory.GetCurrentDirectory();
+                    if (IsService)
+                    {
+                        string pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                        PathToContentRoot = Path.GetDirectoryName(pathToExe);
+                    }
+
+                    string currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+                    //build configuration
+                    IConfigurationRoot configuration = new ConfigurationBuilder()
+                        .SetBasePath(PathToContentRoot)
+                        .AddJsonFile("appsettings.json")
+                        .AddJsonFile($"appsettings.{currentEnv}.json", optional: true)
+                        .AddEnvironmentVariables()
+                        .Build();
+
+                    IWebHost host = WebHost.CreateDefaultBuilder()
+                    .UseContentRoot(PathToContentRoot)
+                    .UseUrls(urlsOption.Value())
+                    .UseStartup<Startup>()
+                    .UseKestrel()
+                    .Build();
+
+                    var webHostService = new WebHostService(host);
+
+                    if (IsService)
+                    {
+                        ServiceBase.Run(webHostService);
+                    }
+                    else
+                    {
+                        host.Run();
+                    }
+
+                    return 0;
+                }
+                else
+                {
+                    app.ShowHint();
+                }
+
+                return 0;
+            });        
+
+            return app.Execute(args);
+        }
+    }
+}
