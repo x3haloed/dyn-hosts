@@ -12,8 +12,9 @@ namespace DynHosts.Server
 {
     public class Program
     {
-        public static bool IsService;
-        public static string PathToContentRoot;
+        public static bool IsService { get; private set; }
+        public static string PathToContentRoot { get; private set; }
+        public static string PathToHostsFile { get; private set; } = @"C:\Windows\System32\drivers\etc\hosts";
 
         public static int Main(string[] args)
         {
@@ -41,6 +42,11 @@ namespace DynHosts.Server
             {
                 if (urlsOption.HasValue())
                 {
+                    if (pathOption.HasValue())
+                    {
+                        PathToHostsFile = pathOption.Value();
+                    }
+
                     //not running as a service if the debugger is attached or the --console arg was passed
                     IsService = !(Debugger.IsAttached || consoleOption.HasValue());
 

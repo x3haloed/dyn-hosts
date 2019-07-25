@@ -3,6 +3,6 @@
     public class HostsEntry
     {
         public string Host { get; set; }
-        public string IpAddress { get; set; }
+        public string[] IpAddresses { get; set; }
     }
 }

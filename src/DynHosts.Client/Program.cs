@@ -29,11 +29,11 @@ namespace DynHosts.Client
 
             var hostnameOption = app.Option("-h|--hostname <NAMES>",
                     "The hostname(s) to modify in the HOSTS file.",
-                    CommandOptionType.MultipleValue);
-
-            var ipsOption = app.Option("-i|--ip <IP>",
-                    "The IP address to set the hostname value(s) to in the HOSTS file.",
                     CommandOptionType.SingleValue);
+
+            var ipsOption = app.Option("-i|--ip <IPs>",
+                    "The IP address(es) to set the hostname value to in the HOSTS file.",
+                    CommandOptionType.MultipleValue);
 
             app.OnExecute(async () =>
             {
@@ -44,32 +44,25 @@ namespace DynHosts.Client
                     string remoteHost = remoteHostOption.Value();
                     string hostname = hostnameOption.Value();
 
-                    foreach (var ip in ipsOption.Values)
+                    Console.Write($"Requesting server at {remoteHost} update host \"{hostname}\"... ");
+                    var postContent = new StringContent(JsonConvert.SerializeObject(new { host = hostname, ipAddresses = ipsOption.Values.ToArray() }), Encoding.UTF8, "application/json");
+
+                    using (var response = await s_httpClient.PutAsync("/api/hosts/" + hostname, postContent))
                     {
-                        Console.Write($"Requesting server at {remoteHost} update host \"{hostname}\" to \"{ip}\"... ");
-                        var postContent = new StringContent(JsonConvert.SerializeObject(new { host = hostname, ipAddress = ip}), Encoding.UTF8, "application/json");
-
-                        var contentAsString = await postContent.ReadAsStringAsync();
-                        Console.WriteLine($"\r\n" + contentAsString);
-                        Newtonsoft.Json.JsonConvert.DeserializeObject(contentAsString);
-
-                        using (var response = await s_httpClient.PutAsync("/api/hosts/" + hostname, postContent))
+                        if (new[] { HttpStatusCode.Created, HttpStatusCode.OK, HttpStatusCode.NoContent }.Contains(response.StatusCode))
                         {
-                            if (new[] { HttpStatusCode.Created, HttpStatusCode.OK, HttpStatusCode.NoContent }.Contains(response.StatusCode))
-                            {
-                                Console.WriteLine("OK!");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Failed.");
-                                Console.WriteLine($"{(int)response.StatusCode} - {response.ReasonPhrase}");
-
-                                string responseContent = await response.Content.ReadAsStringAsync();
-                                Console.WriteLine(responseContent);
-                            }
+                            Console.WriteLine("OK!");
                         }
-                        Console.WriteLine();
+                        else
+                        {
+                            Console.WriteLine("Failed.");
+                            Console.WriteLine($"{(int)response.StatusCode} - {response.ReasonPhrase}");
+
+                            string responseContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine(responseContent);
+                        }
                     }
+                    Console.WriteLine();
                 }
                 else
                 {
