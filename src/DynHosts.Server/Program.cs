@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.ServiceProcess;
 using McMaster.Extensions.CommandLineUtils;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace DynHosts.Server
 {
@@ -67,23 +65,24 @@ namespace DynHosts.Server
                         .AddEnvironmentVariables()
                         .Build();
 
-                    IWebHost host = WebHost.CreateDefaultBuilder()
-                    .UseContentRoot(PathToContentRoot)
-                    .UseUrls(urlsOption.Value())
-                    .UseStartup<Startup>()
-                    .UseKestrel()
-                    .Build();
-
-                    var webHostService = new WebHostService(host);
+                    var hostBuilder = Host.CreateDefaultBuilder();
 
                     if (IsService)
                     {
-                        ServiceBase.Run(webHostService);
+                        hostBuilder.UseWindowsService();
                     }
-                    else
+
+                    IHost host = hostBuilder
+                    .ConfigureWebHostDefaults(webBuilder =>
                     {
-                        host.Run();
-                    }
+                        webBuilder.UseContentRoot(PathToContentRoot);
+                        webBuilder.UseUrls(urlsOption.Value());
+                        webBuilder.UseStartup<Startup>();
+                        webBuilder.UseKestrel();
+                    })
+                    .Build();
+
+                    host.Run();
 
                     return 0;
                 }
