@@ -79,16 +79,31 @@ namespace DynHosts.Server.Controllers
                 //remove all matched host lines
                 fileLines = fileLines.Where(l => !hostRegex.IsMatch(l)).ToArray();
 
-                //add new lines
+                // remove any blank lines at the end of the file
+                int i;
+                for (i = fileLines.Length - 1; i >= 0; i--)
+                {
+                    if (!string.IsNullOrWhiteSpace(fileLines[i]))
+                    {
+                        break;
+                    }
+                }
+
+                fileLines = fileLines
+                    .Take(i + 1)                    
+                    .ToArray();
+
+                // add new lines and append a single blank line at the end of the file
                 fileLines = fileLines
                     .Concat(hostsEntry.IpAddresses.Select(ip => $"\t{ip}\t{name}"))
+                    .Append("")
                     .ToArray();
 
                 //write out file data
                 fileStream.Position = 0;
                 using (var sw = new StreamWriter(fileStream, utf8EncodingWithoutBom, 4096, false))
                 {
-                    await sw.WriteAsync(string.Join(Environment.NewLine, fileLines) + Environment.NewLine);
+                    await sw.WriteAsync(string.Join(Environment.NewLine, fileLines));
                     await fileStream.FlushAsync();
                 }
             }
