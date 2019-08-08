@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace DynHosts.Server
         public static string PathToContentRoot { get; private set; }
         public static string PathToHostsFile { get; private set; } = @"C:\Windows\System32\drivers\etc\hosts";
 
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             var app = new CommandLineApplication
             {
@@ -36,7 +37,7 @@ namespace DynHosts.Server
                     "Semi-colon-delimited list of URL(s) to serve on.",
                     CommandOptionType.SingleValue);
 
-            app.OnExecute(() =>
+            app.OnExecuteAsync(async (cancellationToken) =>
             {
                 if (urlsOption.HasValue())
                 {
@@ -82,7 +83,7 @@ namespace DynHosts.Server
                     })
                     .Build();
 
-                    host.Run();
+                    await host.RunAsync();
 
                     return 0;
                 }
@@ -94,7 +95,7 @@ namespace DynHosts.Server
                 return 0;
             });        
 
-            return app.Execute(args);
+            return await app.ExecuteAsync(args);
         }
     }
 }

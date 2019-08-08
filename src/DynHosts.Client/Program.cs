@@ -13,7 +13,7 @@ namespace DynHosts.Client
     {
         static readonly HttpClient s_httpClient = new HttpClient();
 
-        static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             var app = new CommandLineApplication
             {
@@ -35,7 +35,7 @@ namespace DynHosts.Client
                     "The IP address(es) to set the hostname value to in the HOSTS file. Specify multiple times for multiple IP adresses e.g. --ip 127.0.0.1 --ip ::1",
                     CommandOptionType.MultipleValue);
 
-            app.OnExecute(async () =>
+            app.OnExecuteAsync(async (cancellationToken) =>
             {
                 if (remoteHostOption.HasValue() && hostnameOption.HasValue() && ipsOption.HasValue())
                 {
@@ -72,7 +72,7 @@ namespace DynHosts.Client
                 return 0;
             });
 
-            return app.Execute(args);
+            return await app.ExecuteAsync(args);
         }
     }
 }

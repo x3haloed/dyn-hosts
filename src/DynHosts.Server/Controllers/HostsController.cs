@@ -95,7 +95,7 @@ namespace DynHosts.Server.Controllers
 
                 // add new lines and append a single blank line at the end of the file
                 fileLines = fileLines
-                    .Concat(hostsEntry.IpAddresses.Select(ip => $"\t{ip}\t{name}"))
+                    .Concat(hostsEntry.IpAddresses.Select(ip => $"\t{ip}\t\t{name}"))
                     .Append("")
                     .ToArray();
 
