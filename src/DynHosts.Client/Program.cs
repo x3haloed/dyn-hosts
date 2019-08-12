@@ -53,8 +53,7 @@ namespace DynHosts.Client
                         var postContent = new StringContent(JsonConvert.SerializeObject(new { host = hostname, ipAddresses = ipsOption.Values.ToArray() }), Encoding.UTF8, "application/json");
 
                         using (
-                            var response = await s_httpClient.PutAsync("/api/hosts/" + hostname, postContent)
-                                .ToObservable()
+                            var response = await Observable.FromAsync(async () => await s_httpClient.PutAsync("/api/hosts/" + hostname, postContent))
                                 .Select(r =>
                                 {
                                     if (!r.IsSuccessStatusCode)
