@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>dhclient</AssemblyName>
-    <LangVersion>7.3</LangVersion>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <OutputType>Exe</OutputType>
     <PublishSingleFile>true</PublishSingleFile>
