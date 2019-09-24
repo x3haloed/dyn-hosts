@@ -2,7 +2,7 @@
 {
     public class HostsEntry
     {
-        public string Host { get; set; }
-        public string[] IpAddresses { get; set; }
+        public string? Host { get; set; }
+        public string[]? IpAddresses { get; set; }
     }
 }
