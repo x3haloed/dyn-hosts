@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0" />
   </ItemGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <ExcludeFoldersFromDeployment>bin\ar;bin\cs;bin\de;bin\es;bin\fr;bin\he;bin\hi;bin\it;bin\ja;bin\ko;bin\nl;bin\pl;bin\pt;bin\ru;bin\tr-TR;bin\zh-Hans;bin\zh-Hant</ExcludeFoldersFromDeployment>
+  </PropertyGroup>
 </Project>
