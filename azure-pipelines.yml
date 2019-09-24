@@ -31,7 +31,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
-    projects: 'DynHosts.Server'
+    projects: 'DynHosts.Server.csproj'
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/server'
     zipAfterPublish: True
@@ -39,16 +39,14 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
-    projects: 'DynHosts.Client'
+    projects: 'DynHosts.Client.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/client-x64 --runtime win-x64'
-    zipAfterPublish: True
 
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
-    projects: 'DynHosts.Client'
+    projects: 'DynHosts.Client.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/client-x86 --runtime win-x86'
-    zipAfterPublish: True
 
 # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
 - task: PublishBuildArtifacts@1
