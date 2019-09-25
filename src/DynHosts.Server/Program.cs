@@ -17,7 +17,7 @@ namespace DynHosts.Server
 
         public static async Task<int> Main(string[] args)
         {
-            var app = new CommandLineApplication
+            using var app = new CommandLineApplication
             {
                 Name = "dhserv",
                 Description = "DynHosts Server"
