@@ -26,11 +26,27 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
-- script: dotnet publish $(Build.Repository.LocalPath)/src/DynHosts.Client/DynHosts.Client.csproj --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/client-x64 --runtime win-x64
-  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet publish $(Build.Repository.LocalPath)/src/DynHosts.Client/DynHosts.Client.csproj --configuration $(BuildConfiguration) --output $(Build.BinariesDirectory)/client-x64 --runtime win-x64
+  displayName: 'dotnet publish win-x64'
 
-- script: dotnet publish $(Build.Repository.LocalPath)/src/DynHosts.Client/DynHosts.Client.csproj --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/client-x86 --runtime win-x86
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/client-x64'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/dyn-hosts-client-$(Build.BuildId)-win-x64.zip'
+    replaceExistingArchive: true
+
+- script: dotnet publish $(Build.Repository.LocalPath)/src/DynHosts.Client/DynHosts.Client.csproj --configuration $(BuildConfiguration) --output $(Build.BinariesDirectory)/client-x86 --runtime win-x86
+  displayName: 'dotnet publish win-x86'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/client-x86'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/dyn-hosts-client-$(Build.BuildId)-win-x86.zip'
+    replaceExistingArchive: true
 
 # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
 - task: PublishBuildArtifacts@1
