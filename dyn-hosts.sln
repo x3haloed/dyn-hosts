@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FA8A9B0F-438B-43C2-80F1-9F6832699903}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynHosts.Server", "src\DynHosts.Server\DynHosts.Server.csproj", "{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynHosts.Server", "src\DynHosts.Server\DynHosts.Server.csproj", "{6FA31C77-B8DF-42A2-B959-198CE2FA66E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynHosts.Client", "src\DynHosts.Client\DynHosts.Client.csproj", "{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynHosts.Client", "src\DynHosts.Client\DynHosts.Client.csproj", "{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9725C442-2619-432D-8EFF-8A70718DFC6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

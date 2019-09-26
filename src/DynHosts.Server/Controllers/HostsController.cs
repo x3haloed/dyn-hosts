@@ -18,7 +18,7 @@ namespace DynHosts.Server.Controllers
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<HostsEntry>> Get([FromRoute] string name)
+        public async Task<ActionResult<HostsEntryDto>> Get([FromRoute] string name)
         {
             using (var fileStream = System.IO.File.Open(Program.PathToHostsFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -39,7 +39,7 @@ namespace DynHosts.Server.Controllers
 
                 if (ipAddresses.Length > 0)
                 {
-                    var result = new HostsEntry { Host = name, IpAddresses = ipAddresses };
+                    var result = new HostsEntryDto { Host = name, IpAddresses = ipAddresses };
 
                     return Ok(result);
                 }
@@ -52,7 +52,7 @@ namespace DynHosts.Server.Controllers
         [HttpPut("{name}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<HostsEntry>> Put([FromRoute] string name, [FromBody] HostsEntry hostsEntry)
+        public async Task<ActionResult<HostsEntryDto>> Put([FromRoute] string name, [FromBody] HostsEntryDto hostsEntry)
         {
             if (name != hostsEntry.Host)
             {
