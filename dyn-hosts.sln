@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynHosts.Client", "src\DynH
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9725C442-2619-432D-8EFF-8A70718DFC6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynHosts.Server.Test", "test\DynHosts.Server.Test\DynHosts.Server.Test.csproj", "{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6FA31C77-B8DF-42A2-B959-198CE2FA66E3} = {FA8A9B0F-438B-43C2-80F1-9F6832699903}
 		{15AB7B56-CFB5-445B-AAAE-3EEDE3E02066} = {FA8A9B0F-438B-43C2-80F1-9F6832699903}
+		{AFD4BE20-92C0-44A7-B584-6FC4EA4303ED} = {9725C442-2619-432D-8EFF-8A70718DFC6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DEF2A3E-E775-4CA2-A193-D1D70E10B7F2}
