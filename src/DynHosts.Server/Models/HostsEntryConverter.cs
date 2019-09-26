@@ -6,7 +6,7 @@ namespace DynHosts.Server.Models
 {
     internal static class HostsEntryConverter
     {
-        public static HostsEntryDto ToDto(IEnumerable<HostsEntry> hostsEntries)
+        internal static HostsEntryDto ToDto(IEnumerable<HostsEntry> hostsEntries)
         {
             HostsEntry[] hostsEntryArray = hostsEntries.ToArray();
 
@@ -25,7 +25,7 @@ namespace DynHosts.Server.Models
             return result;
         }
 
-        public static HostsEntryDto[] ToDtos(IEnumerable<HostsEntry> hostsEntries)
+        internal static HostsEntryDto[] ToDtos(IEnumerable<HostsEntry> hostsEntries)
         {
             HostsEntryDto[] results = hostsEntries
                 .GroupBy(he => he.Host, StringComparer.OrdinalIgnoreCase)
@@ -37,6 +37,29 @@ namespace DynHosts.Server.Models
                 .ToArray();
 
             return results;
+        }
+
+        internal static HostsEntry[] ToModels(HostsEntryDto dto)
+        {
+            if (dto.Host == null)
+            {
+                throw new ArgumentException($"{nameof(dto.Host)} cannot be null", nameof(dto));
+            }
+
+            if (dto.IpAddresses == null)
+            {
+                throw new ArgumentException($"{nameof(dto.IpAddresses)} cannot be null", nameof(dto));
+            }
+
+            if (dto.IpAddresses.Any(ip => ip == null))
+            {
+                throw new ArgumentException($"{nameof(dto.IpAddresses)} cannot contain a null value", nameof(dto));
+            }
+
+            HostsEntry[] models = dto.IpAddresses
+                .Select(ip => new HostsEntry(dto.Host, ip))
+                .ToArray();
+            return models;
         }
     }
 }

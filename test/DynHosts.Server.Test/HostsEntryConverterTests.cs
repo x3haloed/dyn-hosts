@@ -28,6 +28,15 @@ namespace DynHosts.Server.Test
             Assert.Equal(model.IpAddress, IPAddress.Parse(dtos[0].IpAddresses[1]));
         }
 
+        [Fact]
+        public void ToModelsCreatesModels()
+        {
+            HostsEntryDto dto = GetTestDto();
+            HostsEntry[] models = HostsEntryConverter.ToModels(dto);
+            Assert.Equal(dto.Host, models[0].Host);
+            Assert.Equal(dto.IpAddresses[0], models[0].IpAddress.ToString());
+        }
+
         private HostsEntryDto GetTestDto() => new HostsEntryDto
         {
             Host = "localhost",
